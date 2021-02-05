@@ -1,0 +1,48 @@
+{% extends 'templates/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron p-3 m-1  col-md-6 mx-auto">
+        <div class="text-center">
+            <h1>Create an Account</h1>
+            <h6>Please fill in this form to create an account.</h6>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label>First Name:</label>
+                <input type="text" class="form-control" name="firstname" value="{{value.first_name}}" placeholder="Enter your Name">
+            </div>
+
+            <div class="form-group">
+                <label>Last Name:</label>
+                <input type="text" class="form-control" name="lastname" value="{{value.last_name}}" placeholder="Enter your Name">
+            </div>
+
+            <div class="form-group">
+                <label>Email address:</label>
+                <input type="email" class="form-control" name="email" value="{{value.email}}" placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+                <label>Mobile no.:</label>
+                <input type="tel" class="form-control" name="mobile" value="{{value.mobile}}" placeholder="Enter your mobile no.">
+            </div>
+
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" name="password" placeholder="********">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
