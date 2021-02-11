@@ -19,7 +19,7 @@ class Index(View):
 
     def post(self, request):
         product = request.POST.get('product')
-        cart = request.POST.get('cart')
+        cart = request.session.get('cart')
         if cart:
             quantity = cart.get(product)
             if quantity:

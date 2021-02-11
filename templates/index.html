@@ -1,7 +1,7 @@
 {% extends 'templates/base.html' %}
 {% load static %}
 {% block content %}
-
+{% load cart %}
 <!--BANNER-->
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
@@ -53,7 +53,7 @@
                     <div class="card-body">
                         <p class="card-title">{{product.name}}</p>
                         <p class="card-text"><b>₹{{product.price}}</b></p>
-
+                        {{product | }}
                         <form action="/" method="POST">
                             {% csrf_token %}
                             <input hidden type="text" name="product" value="{{product.id}}">
