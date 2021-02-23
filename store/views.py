@@ -8,6 +8,9 @@ from store.models import Product, Category, Customer
 # Create your views here.
 class Index(View):
     def get(self, request):
+        cart = request.session.get('cart')
+        if not cart:
+            request.session['cart'] = {}
         products = Product.objects.all()
         categories = Category.objects.all()
         data = {}
@@ -19,11 +22,19 @@ class Index(View):
 
     def post(self, request):
         product = request.POST.get('product')
+        remove = request.POST.get('remove')
         cart = request.session.get('cart')
         if cart:
             quantity = cart.get(product)
             if quantity:
-                cart[product] = quantity + 1
+                if remove:
+                    if quantity <= 1:
+                        cart.pop(product)
+                    else:
+                        cart[product] = quantity - 1
+
+                else:
+                    cart[product] = quantity + 1
             else:
                 cart[product] = 1
         else:
@@ -31,7 +42,7 @@ class Index(View):
             cart[product] = 1
 
         request.session['cart'] = cart
-        print("cart:", request.session['cart'] )
+        print("cart:", request.session['cart'])
         return redirect('homepage')
 
 
@@ -106,11 +117,10 @@ class Login(View):
         customer = Customer.get_customer_by_email(email)
         error_message = None
         if customer:
-            request.session['customer_id'] = customer.id
-            request.session['email'] = customer.email
             flag = check_password(password, customer.password)
             if flag:
-                return redirect('homepage')
+                request.session['customer'] = customer.id
+                # return redirect('homepage')
             else:
                 error_message = 'Email or Password incorrect'
         else:
@@ -118,3 +128,16 @@ class Login(View):
 
         print(email, password)
         return render(request, 'templates/login.html', {'error': error_message})
+
+
+def Logout(request):
+    request.session.clear()
+    return redirect('login')
+
+
+class Cart(View):
+    def get(self, request):
+        ids = list(request.session.get('cart').keys())
+        products = Product.get_products_by_id(ids)
+        print(products)
+        return render(request, 'templates/cart.html', {'products':products})

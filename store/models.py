@@ -10,11 +10,16 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    brand_name = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     description = models.TextField(max_length=300)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='media/products/')
+
+    @staticmethod
+    def get_products_by_id(ids):
+        return Product.objects.filter(id__in=ids)
 
 
 class Customer(models.Model):
