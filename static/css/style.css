@@ -14,6 +14,12 @@
     padding-bottom: 25px;
 }
 
+.cart{
+  flex-direction: row;
+}
+.cart img {
+  width: 30%;
+}
 .foot {
     background-color: #343a40;
 }

@@ -1,0 +1,39 @@
+{% extends 'templates/base.html' %}
+
+{% block content %}
+    <section id="cart_page">
+        <div class="container">
+            <div class="row">
+                <div id="product_detail" class="col-md-9">
+                    <div class="card mb-3">
+                        {% for product in products %}
+                            <div class="row">
+                                <div class="cart_products">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img class="img-fluid" src="{{ product.image.url }}" style="height: 150px; width: 150px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-text"><small><b>{{ product.brand_name }}</b></small>
+                                                <p class="card-title">{{ product.name }}</p>
+                                                <p class="card-text"><b>₹{{ product.price }}</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="price_total" class="col-md-3">
+                    <div class="card">
+                        <h1>price</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
