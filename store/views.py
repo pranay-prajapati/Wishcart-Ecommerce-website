@@ -9,17 +9,7 @@ from store.models import Product, Category, Customer, Order
 # Create your views here.
 class Index(View):
     def get(self, request):
-        cart = request.session.get('cart')
-        if not cart:
-            request.session['cart'] = {}
-        products = Product.objects.all()
-        categories = Category.objects.all()
-        data = {}
-        data['products'] = products
-        data['categories'] = categories
-
-        print('User:', request.session.get('email'))
-        return render(request, 'templates/index.html', data)
+        return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
 
     def post(self, request):
         product = request.POST.get('product')
@@ -45,6 +35,26 @@ class Index(View):
         request.session['cart'] = cart
         print("cart:", request.session['cart'])
         return redirect('homepage')
+
+
+def store(request):
+    cart = request.session.get('cart')
+    if not cart:
+        request.session['cart'] = {}
+    products = None
+    categories = Category.objects.all()
+    categoryID = request.GET.get('category')
+    if categoryID:
+        products = Product.get_all_products_by_categoryid(categoryID)
+    else:
+        products = Product.objects.all()
+
+    data = {}
+    data['products'] = products
+    data['categories'] = categories
+
+    print('you are : ', request.session.get('email'))
+    return render(request, 'templates/index.html', data)
 
 
 class Signup(View):

@@ -1,8 +1,9 @@
 from django.urls import path
-from store.views import Index, Signup, Login, Logout, Cart, Checkout, OrderView
+from store.views import Index,store, Signup, Login, Logout, Cart, Checkout, OrderView
 
 urlpatterns = [
     path('', Index.as_view(), name='homepage'),
+    path('store', store , name='store'),
     path('signup', Signup.as_view(), name='signup'),
     path('login', Login.as_view(), name='login'),
     path('logout', Logout, name='logout'),
