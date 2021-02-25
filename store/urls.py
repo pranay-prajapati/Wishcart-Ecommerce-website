@@ -1,5 +1,5 @@
 from django.urls import path
-from store.views import Index, Signup, Login, Logout, Cart
+from store.views import Index, Signup, Login, Logout, Cart, Checkout
 
 urlpatterns = [
     path('', Index.as_view(), name='homepage'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('login', Login.as_view(), name='login'),
     path('logout', Logout, name='logout'),
     path('cart', Cart.as_view(), name='cart'),
+    path('checkout', Checkout.as_view(), name='checkout'),
 ]

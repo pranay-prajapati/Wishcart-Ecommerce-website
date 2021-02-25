@@ -17,6 +17,9 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='media/products/')
 
+    def __str__(self):
+        return self.name
+
     @staticmethod
     def get_products_by_id(ids):
         return Product.objects.filter(id__in=ids)
@@ -28,6 +31,9 @@ class Customer(models.Model):
     email = models.EmailField()
     mobile = models.CharField(max_length=10)
     password = models.CharField(max_length=8)
+
+    def __str__(self):
+        return self.email
 
     @staticmethod
     def get_customer_by_email(email):
@@ -41,3 +47,13 @@ class Customer(models.Model):
             return True
 
         return False
+
+
+class Order(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    price = models.IntegerField()
+    address = models.CharField(max_length=150, blank=True, null=True)
+    phone = models.CharField(max_length=10, blank=True, null=True)
+    date = models.DateField(auto_now_add=True)

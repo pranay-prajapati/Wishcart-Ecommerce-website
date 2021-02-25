@@ -141,3 +141,5 @@ class Cart(View):
         products = Product.get_products_by_id(ids)
         print(products)
         return render(request, 'templates/cart.html', {'products':products})
+
+class Checkout(View):
